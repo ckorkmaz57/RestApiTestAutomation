@@ -1,9 +1,7 @@
 package Models.PersonsApiModel;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
 import java.util.Map;
 
@@ -11,6 +9,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Persons {
 
     int id;
@@ -19,7 +18,7 @@ public class Persons {
 
     public static Persons createPersons(Map<String,String> TableItems){
 
-        return new Persons(Integer.getInteger(TableItems.get("id")),
+        return new Persons(Integer.parseInt(TableItems.get("id")),
                 TableItems.get("personName"),
                 TableItems.get("phoneNumber"));
 

@@ -65,7 +65,7 @@ public class CommonStepDefinitions {
     @Then("^PUT \"(.*)\" endpoint returns (.*) status code and Message is (.*)$")
     public void putEndpointReturnsStatusCodeAndMessageIs(String url, int statusCode, String message) {
 
-        HashMap<String,String> responseMessage = new HashMap<String,String>();
+        HashMap<String,String> responseMessage = new HashMap<>();
         responseMessage.put("Message",message);
 
         personsSettings.wireMock.stubPutResponse(url,personsSettings.gson.toJson(responseMessage),statusCode);

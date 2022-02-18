@@ -25,7 +25,9 @@ public class WireMock {
 
     public void resetWireMock(){
 
-        wireMockServer.resetAll();
+        while (wireMockServer.isRunning()){
+            wireMockServer.shutdownServer();
+        }
 
     }
 

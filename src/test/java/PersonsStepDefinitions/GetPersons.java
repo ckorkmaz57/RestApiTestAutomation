@@ -1,16 +1,11 @@
 package PersonsStepDefinitions;
 
-import Models.PersonsApiModel.Persons;
-import io.cucumber.java.DataTableType;
+import Models.PersonsModel.PersonsResponseModel;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.path.json.JsonPath;
 import org.junit.Assert;
-
 import java.util.List;
-import java.util.Map;
 
 public class GetPersons {
 
@@ -20,15 +15,8 @@ public class GetPersons {
         this.personsSettings=personsSettings;
     }
 
-    @DataTableType
-    public Persons createPersons(Map<String,String> tableItems){
-
-        return Persons.createPersons(tableItems);
-
-    }
-
     @Given("^GET \"(.*)\" endpoint returns (.*) and body list$")
-    public void getEndpointReturnsList(String url,int status,List<Persons> personsList){
+    public void getEndpointReturnsList(String url,int status,List<PersonsResponseModel> personsList){
 
         personsSettings.wireMock.stubGetResponse(url,personsSettings.gson.toJson(personsList),status);
 
@@ -36,27 +24,20 @@ public class GetPersons {
 
     @When("^GET \"(.*)\" endpoint is called")
     @When("^GET \"(.*)\" endpoint is called without parameters$")
-    public void getEndpointIsCalledWithoutParameters(String url) {
+    public void getEndpointIsCalledWithoutParameters(String endpoint) {
 
         personsSettings.restAssured
-                .setURL("http://localhost:8081" + url)
+                .setEndpoint(endpoint)
                 .sendGetRequest();
 
     }
 
-    @Then("^HTTP status code should be (.*)$")
-    public void httpStatusCodeShouldBe(int statusCode) {
-
-        Assert.assertEquals(statusCode,personsSettings.restAssured.getResponseStatusCode());
-
-    }
-
     @And("Persons should be")
-    public void personsShouldBe(List<Persons> personsList) {
+    public void personsShouldBe(List<PersonsResponseModel> personsList) {
 
-        JsonPath personListJson = personsSettings.restAssured.getResponseBody().jsonPath();
-
-        Assert.assertEquals(personsSettings.gson.toJsonTree(personListJson.get()),personsSettings.gson.toJsonTree(personsList));
+        Assert.assertEquals(personsSettings.gson.toJsonTree(personsSettings.restAssured.getResponseAllFields()),
+                            personsSettings.gson.toJsonTree(personsList));
 
     }
+
 }

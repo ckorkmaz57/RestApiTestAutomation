@@ -1,7 +1,15 @@
 package PersonsStepDefinitions;
 
+import Models.PersonsModel.PersonsRequestModel;
+import Models.PersonsModel.PersonsResponseModel;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.DataTableType;
+import io.cucumber.java.en.Then;
+import org.junit.Assert;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CommonStepDefinitions {
 
@@ -22,6 +30,45 @@ public class CommonStepDefinitions {
     public void afterTest() {
 
         personsSettings.wireMock.resetWireMock();
+
+    }
+
+    @DataTableType
+    public PersonsResponseModel createPersonsResponseModel(Map<String,String> tableItems){
+
+        return PersonsResponseModel.createPersonsResponseModel(tableItems);
+
+    }
+
+    @DataTableType
+    public PersonsRequestModel createPersonsRequestModel(Map<String,String> tableItems){
+
+        return PersonsRequestModel.createPersonsRequestModel(tableItems);
+
+    }
+
+    @Then("^HTTP status code should be (.*) status code$")
+    public void httpStatusCodeShouldBe(int statusCode) {
+
+        Assert.assertEquals(statusCode,personsSettings.restAssured.getResponseStatusCode());
+
+    }
+
+    @Then("^HTTP status code should be (.*) and Message should be (.*)$")
+    public void httpStatusCodeShouldBeAndMessageShouldBe(int statusCode, String message) {
+
+        Assert.assertEquals(statusCode,personsSettings.restAssured.getResponseStatusCode());
+        Assert.assertEquals(message,personsSettings.restAssured.getResponseSingleField("Message"));
+
+    }
+
+    @Then("^PUT \"(.*)\" endpoint returns (.*) status code and Message is (.*)$")
+    public void putEndpointReturnsStatusCodeAndMessageIs(String url, int statusCode, String message) {
+
+        HashMap<String,String> responseMessage = new HashMap<String,String>();
+        responseMessage.put("Message",message);
+
+        personsSettings.wireMock.stubPutResponse(url,personsSettings.gson.toJson(responseMessage),statusCode);
 
     }
 

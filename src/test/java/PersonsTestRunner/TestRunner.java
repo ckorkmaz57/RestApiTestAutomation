@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         snippets = CucumberOptions.SnippetType.CAMELCASE,
         glue = "PersonsStepDefinitions",
-        features = "src/test/resources/persons/"
+        features = "src/test/resources/persons"
 )
-public class PersonsTestRunner {
+public class TestRunner {
 }

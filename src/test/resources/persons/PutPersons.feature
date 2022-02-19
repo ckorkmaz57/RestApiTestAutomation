@@ -1,20 +1,20 @@
 #noinspection NonAsciiCharacters
 Feature: PUT "/api/persons" endpoint step definitions
 
-  Scenario:TC_001_When the rest api application is called with one person, then person should be inserted successfully
-    Given PUT "/api/persons/" endpoint returns 200 and body list
+  Scenario:TC_001_When the rest api application is called with one person, then person should be created successfully
+    Given PUT "/api/persons/" endpoint returns 201 and body list
       | id | PersonName  | PhoneNumber    |
       | 1  | Cansu Üstek | 05555555555    |
     When PUT "/api/persons/" endpoint is called
       | PersonName  | PhoneNumber    |
       | Cansu Üstek | 05555555555    |
-    Then HTTP status code should be 200 status code
+    Then HTTP status code should be 201 status code
     And Persons should be
       | id | PersonName  | PhoneNumber    |
       | 1  | Cansu Üstek | 05555555555    |
 
-  Scenario:TC_002_When the rest api application is called with list of persons, then all rows should be inserted successfully
-    Given PUT "/api/persons/" endpoint returns 200 and body list
+  Scenario:TC_002_When the rest api application is called with list of persons, then all rows should be created successfully
+    Given PUT "/api/persons/" endpoint returns 201 and body list
       | id | PersonName  | PhoneNumber    |
       | 1  | Cansu Üstek | 05555555555    |
       | 2  | Mr.Brown    | 05555555554    |
@@ -24,7 +24,7 @@ Feature: PUT "/api/persons" endpoint step definitions
       | Cansu Üstek | 05555555555    |
       | Mr.Brown    | 05555555554    |
       | Mrs.Brown   | 6583020585     |
-    Then HTTP status code should be 200 status code
+    Then HTTP status code should be 201 status code
     And Persons should be
       | id | PersonName  | PhoneNumber    |
       | 1  | Cansu Üstek | 05555555555    |

@@ -2,10 +2,11 @@ package PersonsStepDefinitions;
 
 import Models.PersonsModel.PersonsRequestModel;
 import Models.PersonsModel.PersonsResponseModel;
-import io.cucumber.java.DataTableType;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class PutPersons {
@@ -23,20 +24,23 @@ public class PutPersons {
 
     }
 
-    @DataTableType(replaceWithEmptyString = "[blank]")
-    public String stringType(String cell) {
-
-        return cell;
-
-    }
-
     @When("^PUT \"(.*)\" endpoint is called$")
     public void putEndpointIsCalled(String endpoint,List<PersonsRequestModel> personsList) {
 
         personsSettings.restAssured
-                .setRequestBody(personsSettings.gson.toJson(personsList.get(0)))
+                .setRequestBody(personsSettings.gson.toJson(personsList))
                 .setEndpoint(endpoint)
                 .sendPutRequest();
+
+    }
+
+    @Then("^PUT \"(.*)\" endpoint returns (.*) status code and Message is \"(.*)\"$")
+    public void putEndpointReturnsStatusCodeAndMessageIs(String url, int statusCode, String message) {
+
+        HashMap<String,String> responseMessage = new HashMap<>();
+        responseMessage.put("Message",message);
+
+        personsSettings.wireMock.stubPutResponse(url,personsSettings.gson.toJson(responseMessage),statusCode);
 
     }
 

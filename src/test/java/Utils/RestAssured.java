@@ -2,7 +2,6 @@ package Utils;
 
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 
 import java.util.ArrayList;
@@ -11,11 +10,10 @@ import static io.restassured.RestAssured.given;
 
 public class RestAssured {
 
-    RequestSpecification request;
-    Response response;
-    ValidatableResponse json;
+    private final RequestSpecification request;
+    private Response response;
     private JsonPath jpath;
-    String url;
+    private final String url;
 
     public RestAssured(String url) {
 
@@ -38,13 +36,6 @@ public class RestAssured {
 
     }
 
-    public RestAssured sendPostRequest() {
-
-        this.response = request.when().post();
-        return this;
-
-    }
-
     public void sendGetRequest() {
 
         this.response = request.when().get();
@@ -54,12 +45,6 @@ public class RestAssured {
     public void sendPutRequest() {
 
         this.response = request.when().put();
-
-    }
-
-    public Response getResponseBody() {
-
-        return response;
 
     }
 
@@ -86,13 +71,6 @@ public class RestAssured {
     public RestAssured setEndpoint(String endpoint) {
 
         request.baseUri(this.url + endpoint);
-        return this;
-
-    }
-
-    public RestAssured setParameter(String key, String val) {
-
-        request.param(key, val);
         return this;
 
     }

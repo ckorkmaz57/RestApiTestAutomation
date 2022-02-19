@@ -7,8 +7,6 @@ import io.cucumber.java.Before;
 import io.cucumber.java.DataTableType;
 import io.cucumber.java.en.Then;
 import org.junit.Assert;
-
-import java.util.HashMap;
 import java.util.Map;
 
 public class CommonStepDefinitions {
@@ -54,21 +52,11 @@ public class CommonStepDefinitions {
 
     }
 
-    @Then("^HTTP status code should be (.*) and Message should be (.*)$")
+    @Then("^HTTP status code should be (.*) and Message should be \"(.*)\"$")
     public void httpStatusCodeShouldBeAndMessageShouldBe(int statusCode, String message) {
 
         Assert.assertEquals(statusCode,personsSettings.restAssured.getResponseStatusCode());
         Assert.assertEquals(message,personsSettings.restAssured.getResponseSingleField("Message"));
-
-    }
-
-    @Then("^PUT \"(.*)\" endpoint returns (.*) status code and Message is (.*)$")
-    public void putEndpointReturnsStatusCodeAndMessageIs(String url, int statusCode, String message) {
-
-        HashMap<String,String> responseMessage = new HashMap<>();
-        responseMessage.put("Message",message);
-
-        personsSettings.wireMock.stubPutResponse(url,personsSettings.gson.toJson(responseMessage),statusCode);
 
     }
 

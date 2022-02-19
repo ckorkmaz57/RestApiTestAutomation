@@ -40,7 +40,7 @@ Feature: GET "/api/persons" endpoint step definitions
     Then HTTP status code should be 404 status code
 
   Scenario Outline: TC_005_When "api/persons/<id>" endpoint is called with non-matching id according to given list, then returns 404 not found
-    Given GET "/api/persons/4" endpoint returns 404 and body list
+    Given GET "/api/persons/<id>" endpoint returns 404 and body list
       | id | personName  | phoneNumber    |
     When GET "/api/persons/<id>" endpoint is called
     Then HTTP status code should be 404 status code

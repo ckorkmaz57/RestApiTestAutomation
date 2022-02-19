@@ -1,42 +1,50 @@
 package Models.PersonsModel;
 
-import lombok.*;
-
 import java.util.Map;
 
 import static Utils.TypeOperation.emptyStringTransform;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
 public class PersonsResponseModel {
 
     int id;
     String personName;
     String phoneNumber;
 
-    public void setId(String val){
+    public PersonsResponseModel(int id, String personName, String phoneNumber) {
+        this.id = id;
+        this.personName = personName;
+        this.phoneNumber = phoneNumber;
+    }
 
-        try {
+    public void setId(int id) {
+        this.id = id;
+    }
 
-            this.id = Integer.parseInt(val);
+    public int getId() {
+        return id;
+    }
 
-        }catch (NumberFormatException e){
-            this.id = 0 ;
-        }
+    public String getPersonName() {
+        return personName;
+    }
 
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public static PersonsResponseModel createPersonsResponseModel(Map<String,String> TableItems){
 
-        PersonsResponseModel personsResponseModel = new PersonsResponseModel();
-
-        personsResponseModel.setId(TableItems.get("id"));
-        personsResponseModel.setPersonName(emptyStringTransform(TableItems.get("PersonName")));
-        personsResponseModel.setPhoneNumber(emptyStringTransform(TableItems.get("PhoneNumber")));
-
-        return personsResponseModel;
+        return new PersonsResponseModel(Integer.parseInt(TableItems.get("id")),
+                emptyStringTransform(TableItems.get("PersonName")),
+                emptyStringTransform(TableItems.get("PhoneNumber")));
 
     }
 
